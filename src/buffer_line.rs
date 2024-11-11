@@ -263,6 +263,10 @@ impl BufferLine {
         self.layout_opt.get()
     }
 
+    pub fn layout_opt_is_unused(&self) -> bool {
+        matches!(self.layout_opt, Cached::Unused(_))
+    }
+
     /// Get line metadata. This will be None if [`BufferLine::set_metadata`] has not been called
     /// after the last reset of shaping and layout caches
     pub fn metadata(&self) -> Option<usize> {

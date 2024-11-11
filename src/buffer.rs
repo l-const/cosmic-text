@@ -397,6 +397,11 @@ impl Buffer {
 
     /// Shape lines until scroll
     pub fn shape_until_scroll(&mut self, font_system: &mut FontSystem, prune: bool) {
+        let unused = self.lines.iter()
+            .filter(|b| b.layout_opt_is_unused())
+            .count();
+        let total =  self.lines.iter().count();
+        eprintln!("Shape lines unused: {:?}, total: {:?} , percent: {:?}", unused, total, unused / total);
         let metrics = self.metrics;
         let old_scroll = self.scroll;
 
@@ -671,6 +676,12 @@ impl Buffer {
         attrs: Attrs,
         shaping: Shaping,
     ) {
+
+        let unused = self.lines.iter()
+        .filter(|b| b.layout_opt_is_unused())
+        .count();
+    let total =  self.lines.iter().count();
+    eprintln!("Shape lines unused: {:?}, total: {:?} , percent: {:?}", unused, total, unused / total);
         self.lines.clear();
         for (range, ending) in LineIter::new(text) {
             self.lines.push(BufferLine::new(
